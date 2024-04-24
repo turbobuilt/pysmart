@@ -1,0 +1,21 @@
+{
+    "compilerOptions": {
+        "target": "es5",
+        "module": "commonjs",
+        "lib": ["es6"],
+        "strict": false,
+        "esModuleInterop": true,
+        "skipLibCheck": true,
+        "forceConsistentCasingInFileNames": false,
+        "useUnknownInCatchVariables": false,
+        "strictNullChecks": false,
+        "noImplicitAny": false,
+        "resolveJsonModule": true,
+        "baseUrl": "./src", // Set the base URL to the source directory
+        "paths": {
+            "@/*": ["*"] // Map all imports starting with "@" to the root directory
+        }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules"]
+}
