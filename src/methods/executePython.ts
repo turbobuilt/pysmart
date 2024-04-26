@@ -1,22 +1,27 @@
-import { getLocalPackagesDir, getLocalPythonHome, getLocalPythonPath, getWorkingDir } from "@/lib/getPaths";
+import { getDyldLibraryPath, getLocalPackagesDir, getLocalPythonHome, getLocalPythonPath, getPythonHome, getSitePackagesDir, getWorkingDir } from "@/lib/getPaths";
 import { getYargs } from "@/lib/getYargs";
 import { spawn, spawnSync } from "bun";
 import { get } from "http";
 import { join, normalize } from "path";
 
-export async function executePython(cmd, { stdout="inherit", stderr="inherit", onExit }) {    
+export async function executePython(cmd: string[], { stdout="inherit", stderr="inherit", onExit }) {    
     let workingDir = await getWorkingDir();
     let pythonPackagesDir = await getLocalPackagesDir();
+    let pythonSitePackagesDir = await getSitePackagesDir();
     let localPythonHome = await getLocalPythonHome();
     let pythonPath = await getLocalPythonPath();
+    let dyldLibraryPath = await getDyldLibraryPath();
     console.log("running python command:", cmd);
-    console.log("python path", pythonPath,"in", workingDir, "with packages dir", pythonPackagesDir);
-    let proc = spawn([pythonPath, ...cmd.split(" ")], {
+    let proc = spawn([pythonPath, ...cmd], {
         cwd: workingDir,
         env: {
             ...process.env,
             PYTHONPATH: pythonPackagesDir,
-            PYTHONHOME: localPythonHome
+            // PYTHONHOME: "/Users/dev/prg/smartpy/test/python",
+            PYTHONNOUSERSITE: "1",
+            // PYTHONUSERBASE: await getPythonHome(),
+            // PYTHONHOME: localPythonHome,
+            DYLD_LIBRARY_PATH: dyldLibraryPath
         },
         stdout: stdout as any,
         stderr: stderr as any,

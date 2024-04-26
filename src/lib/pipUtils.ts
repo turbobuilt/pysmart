@@ -53,7 +53,7 @@ export async function recursiveHardLink(src, target, isRoot=true) {
 
 export async function ensurePip() {
     let result = await new Promise(async (resolve, reject) => {
-        let proc = await executePython("-m ensurepip", {
+        let proc = await executePython("-m ensurepip --root=python", {
             stdout: "inherit",
             stderr: "inherit",
             onExit: resolve,

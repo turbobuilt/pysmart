@@ -15,6 +15,6 @@ export function getYargs() {
                 default: process.cwd()
             })
         })
-        .scriptName("pys").parse()
+        .scriptName("spy").parse()
     return result;
 }

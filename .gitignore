@@ -2,3 +2,4 @@ python_modules/*
 python/*
 node_modules/*
 test/*
+.DS_Store

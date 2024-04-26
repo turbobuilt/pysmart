@@ -5,7 +5,6 @@ import { getLocalPackagesDir, getLocalPythonPath } from "@/lib/getPaths";
 import { getPackageJson, getPackageLockJson, savePackageJson, savePackageLockJson } from "@/lib/packageUtils";
 
 export async function installPackages(argv) {
-    console.log("Installing packages");
     let newPackages = argv.packages;
     if (newPackages?.length > 0) {
         await addNewPackages(argv.packages);
@@ -16,8 +15,9 @@ export async function installPackages(argv) {
 
 export async function addNewPackages(newPackages) {
     console.log("Installing new packages", newPackages);
+    let packagesDirectory = await getLocalPackagesDir();
     await new Promise(async (resolve) => {
-        await executePython("-m pip install " + newPackages.join(" "), {
+        await executePython(["-m", "pip", "install", `--target=${packagesDirectory}`, newPackages.join(" ")], {
             stdout: "inherit",
             stderr: "inherit",
             onExit: resolve,
@@ -26,7 +26,7 @@ export async function addNewPackages(newPackages) {
     // now run pip freeze
     console.log("Running pip freeze");
     await new Promise(async resolve => {
-        let { stdout } = await executePython("-m pip freeze > ", { onExit: resolve, stdout: "pipe" })
+        let { stdout } = await executePython(["-m", "pip", "freeze", ">"], { onExit: resolve, stdout: "pipe" })
         let result = await readableStreamToText(stdout);
         // save to package-lock.json
         let lines = result.trim().split(/\r?\n/);

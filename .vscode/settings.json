@@ -1,14 +1,12 @@
 {
     "python.pythonPath": "./python/python",
     "terminal.integrated.env.linux": {
-        
         "PYTHONPATH": "${workspaceFolder}/python_packages"
     },
     "terminal.integrated.env.windows": {
         "PYTHONPATH": "${workspaceFolder}\\python_packages"
     },
     "terminal.integrated.env.osx": {
-        
         "PYTHONPATH": "${workspaceFolder}/python_packages"
     },
     "python.analysis.extraPaths": [

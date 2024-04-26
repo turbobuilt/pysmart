@@ -3,6 +3,7 @@ import { fileExists } from "./fileExists";
 import { selectPython } from "./initPython";
 import { getYargs } from "./getYargs";
 import { readableStreamToText, spawn } from "bun";
+import { getPackageJson } from "./packageUtils";
 
 export function getWorkingDir() {
     let args = getYargs();
@@ -10,6 +11,9 @@ export function getWorkingDir() {
     return resolve(dir);
 }
 
+export async function getSitePackagesDir() {
+    return "/Users/dev/prg/smartpy/test/python/Library/Python/3.9/site-packages";
+}
 export async function getLocalPackagesDir() {
     let workingDir = getWorkingDir();
     return resolve(workingDir, "python_packages");
@@ -25,9 +29,20 @@ export async function getLocalPythonHome() {
 }
 
 export async function getLocalPythonPath() {
+    let packageJson = await getPackageJson();
+    let pythonPath = packageJson.pythonExecutable;
+    if (!pythonPath) {
+        throw new Error("pythonExecutable not found in package.json.  Please run spy init to choose your python, or put the path to your selected python in the pythonExecutable field of your package.json.");
+    }
+    return pythonPath;
+    // let pythonHome = await getLocalPythonHome();
+    // let expectedPath = join(pythonHome, "/python");
+    // return expectedPath;
+}
+
+export async function getDyldLibraryPath() {
     let pythonHome = await getLocalPythonHome();
-    let expectedPath = join(pythonHome, "python");
-    return expectedPath;
+    return join(pythonHome);
 }
 
 export async function getSystemPythonPackagesDirs() {

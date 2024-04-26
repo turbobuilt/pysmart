@@ -1,0 +1,1 @@
+bun build ./src/main.ts --outfile build/spy --compile
