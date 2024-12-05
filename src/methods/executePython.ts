@@ -12,7 +12,7 @@ export async function executePython(cmd: string[], { stdout="inherit", stderr="i
     let pythonPath = await getLocalPythonPath();
     let dyldLibraryPath = await getDyldLibraryPath();
     console.log("running python command:", cmd);
-    let proc = spawn([pythonPath, ...cmd], {
+    let proc = spawn([pythonPath, "-S", ...cmd], {
         cwd: workingDir,
         env: {
             ...process.env,

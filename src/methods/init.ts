@@ -51,7 +51,7 @@ export async function init(argv) {
     //     await cp(pythonPathInfo.path, pythonPath);
     // }
     
-    await copyStandardLib(pythonPathInfo.path);
+    // await copyStandardLib(pythonPathInfo.path);
     await ensurePip();
     await initGit();
     await saveLocalPythonVersionToPackageJson();
